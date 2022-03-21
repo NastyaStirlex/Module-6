@@ -110,18 +110,26 @@ for (var i = 0; i < n; i++) {
 console.log(grid);
 }
 
-function chooseWalls(){
-   
+function chooseWalls() {
+    let boxes = document.querySelectorAll('.elem');
+
+    boxes.forEach(element=>{
+      element.addEventListener('click',()=>{
+          element.classList.toggle('colored')
+      })
+    })
 }
 
 function chooseBeginandEnd(){
+    let boxes = document.querySelectorAll('.elem');
 
+    boxes.forEach(element=>{
+      element.addEventListener('click',()=>{
+          element.classList.toggle('begining')
+      })
+    })
 }
+
 function draw(){
-    background(0);
-    for (var i = 0; i<cols;i++){
-        for (var j = 0; j<rows;j++){
-            grid[i][j].show(color(255));
-        }       
-    }
+   
 }

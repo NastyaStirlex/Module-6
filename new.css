@@ -1,0 +1,24 @@
+#parent {
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  height: 27px;
+}
+
+.elem {
+  width: 25px;
+  height: 25px;
+  border: 1px solid rgb(0, 0, 0);
+  display: inline-block;
+}
+
+
+.colored {
+  background: rgb(61, 61, 61);
+}
+
+.begining {
+  background: rgb(255, 152, 67);
+}
