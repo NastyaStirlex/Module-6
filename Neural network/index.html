@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Drawing</title>
+    </head>
+    <body>
+        <canvas id="myCanvas" width="500" height="500" style="background-color:#eee; border: 1px solid #ccc; display: block; margin: 5% auto;">
+        </canvas>
+        <script>
+            var canvas = document.getElementById("myCanvas"),
+            context = canvas.getContext("2d"),
+            w = canvas.width,
+            h = canvas.height;
+            var mouse = { x:0, y:0 };
+            var draw = false;
+
+            canvas.addEventListener("mousedown", function(e){
+                mouse.x = e.pageX - this.offsetLeft;
+                mouse.y = e.pageY - this.offsetTop;
+                draw = true;
+                context.beginPath();
+                context.moveTo(mouse.x, mouse.y);
+            });
+            canvas.addEventListener("mousemove", function(e){
+                if(draw == true){
+                    mouse.x = e.pageX - this.offsetLeft;
+                    mouse.y = e.pageY - this.offsetTop;
+                    context.lineTo(mouse.x, mouse.y);
+                    context.stroke();
+                }
+            });
+            canvas.addEventListener("mouseup", function(e){
+                mouse.x = e.pageX - this.offsetLeft;
+                mouse.y = e.pageY - this.offsetTop;
+                context.lineTo(mouse.x, mouse.y);
+                context.stroke();
+                context.closePath();
+                draw = false;
+            });
+        </script>
+        <div>
+            <script>
+                function clearCanvas() {
+                    context.clearRect(0, 0, canvas.width, canvas.height);
+                }
+            </script>
+            <button onclick="clearCanvas()" style="display: block; margin: 5% auto;">Очистить</button>
+        </div>
+    </body>
+</html>
