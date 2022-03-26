@@ -13,37 +13,9 @@ block.onclick = function(e) {
   mass.push(point);
 }
 }
+
 function distance(a,b){
     return Math.sqrt(Math.pow(b.x-a.x,2)+Math.pow(b.y-a.y,2));
-}
-
-function moveCenter() {
-  let finished = false;
-  for (var i = 0; i<groups.length; i++){
-      finished = true;
-      let x = 0, y = 0;
-      for (var i = 0; i<groups.length; i++){
-          x += gruops[i].x;
-          y += gruops[i].y;
-      }
-    }
-
-      let oldPos = {x: group.center.x,
-         y: group.center.y};
-      
-      group.center = {
-          x: x / group.dots.length,
-          y: y / group.dots.length
-      };
-      let newPos = {x: group.center.x, y: group.center.y};
-
-      if (oldPos.x !== newPos.x || oldPos.y !== newPos.y) finished = false;
-      console.log(groups);
-
-  if (finished){
-      console.log('Algorithm is finished');
-      console.log(groups);
-  } 
 }
 
 
@@ -71,18 +43,6 @@ class Cluster{
       data[i] = new Dot(parseInt(mass[i].style.left, 10), parseInt(mass[i].style.top,10));
     }
 
-    for (let i = 0; i < k; i++) {
-      var g = new Cluster;
-      groups.push(g);
-     
-    }
-    console.log(groups);
-    while (flag) {
-      moveCenter();
-    } 
-    if (!flag) {
-      //updateGroups();
-    }
 //    if (data[0].cluster == 0){
   //    mass[0].style.background="black"; //смена цвета от номера кластера
  // var block = document.getElementById('page1');

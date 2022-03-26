@@ -4,13 +4,29 @@
     <head>
         <meta charset="UTF-8">
         <script language="javascript" type="text/javascript" src="https://cdn.jsdelivr.net/npm/p5@1.4.1/lib/p5.min.js"></script>
-        <title>Document</title>
-        <h1>A*</h1>
+        <title>A*</title>
+        <script language="javascript" type="text/javascript" src="log.js"></script>
+        <link rel="stylesheet" href="./new.css">
         
     </head>
     
-    <body>
-        <script language="javascript" type="text/javascript" src="alg1.js"></script>
-    </body>
+        <body>
+            <h1>A*</h1>
+        <ul>
+            <input type="text" class="form-control" id="inp_1">
+            <button onclick="getN()"  class="btn btn-primary" >ввести число n</button>
+            <button onclick="setup()"  class="btn btn-primary" >построить карту</button>
+        </ul>
+        <div id="parent">
+        </div>
+        <ul>
+            <button onclick="chooseWalls()"  class="btn btn-primary" >построить стенки</button>
+            <button onclick="chooseBeginandEnd()"  class="btn btn-primary" >построить начало и конец</button>
+        </ul>
+            <ul>
+                <button onclick="alg()"  class="btn btn-primary" >старт!</button>
+                <div id="iddiv"></div>
+            </ul> 
+         </body>
 
-</html>
+

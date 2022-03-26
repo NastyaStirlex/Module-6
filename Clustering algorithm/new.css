@@ -1,0 +1,24 @@
+.page { 
+  position: relative; 
+  height: 400px; 
+  width: 400px;
+  border-bottom: 5px solid #666666;
+  border-left: 5px solid #666666;
+  background: rgb(248, 248, 248); 
+  display: inline-block;
+}
+.dot {
+    height: 8px; 
+    width: 8px;
+    border-radius: 4px;
+    background: rgb(231, 96, 96);
+    position: absolute;
+}
+
+.cluster {
+  height: 10px; 
+  width: 10px;
+  border-radius: 5px;
+  background: rgb(255, 236, 65);
+  position: absolute;
+}

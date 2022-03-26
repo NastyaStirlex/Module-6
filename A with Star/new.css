@@ -14,11 +14,14 @@
   display: inline-block;
 }
 
-
-.colored {
+.wall {
   background: rgb(61, 61, 61);
 }
 
 .begining {
   background: rgb(255, 152, 67);
+}
+
+.path {
+  background: rgb(139, 96, 241);
 }
