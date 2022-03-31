@@ -1,25 +1,18 @@
 <!DOCTYPE html>
-
-<html>
+<html lang="en">
     <head>
         <meta charset="UTF-8">
         <script language="javascript" type="text/javascript" src="https://cdn.jsdelivr.net/npm/p5@1.4.1/lib/p5.min.js"></script>
         <title>Clustering</title>
-        <link rel="stylesheet" href="./new.css">
         <script language="javascript" type="text/javascript" src="clustering.js"></script>
-        
+        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+        <link rel="stylesheet" href="new.css">
     </head>
-    
-        <body>
-            <h1>Кластеризация</h1>
-                ввести число k
-            <input type="text" class="form-control" id="inp_2">
-            <ul>
-                <button onclick="pointDots()"  class="btn btn-primary" >поставить точки</button>
-                <button onclick="algorithm()"  class="btn btn-primary" >запустить алгоритм</button>
-            </ul>
-            <div id="page1" class="page">
-            </div>
-         </body>
-
-
+    <body>
+        <input type="text" id="inp_2" placeholder="Enter k" style="margin: 5% 5%">
+        <button onclick="pointDots()">put the dots</button>
+        <button onclick="algorithm()">start!</button>
+        <button onclick="document.location='../main.html'">home page</button>
+        <div id="page1" class="page" ></div>
+    </body>
+</html>

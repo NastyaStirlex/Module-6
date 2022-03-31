@@ -5,9 +5,11 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Drawing</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+        <link rel="stylesheet" href="style.css">
     </head>
     <body>
-        <canvas id="myCanvas" width="500" height="500" style="background-color:#eee; border: 1px solid #ccc; display: block; margin: 5% auto;">
+        <canvas id="myCanvas" width="500" height="500" style="background-color:#eee; border: 1px solid #ccc; display: block; margin: 10% 50%;">
         </canvas>
         <script>
             var canvas = document.getElementById("myCanvas"),
@@ -47,7 +49,9 @@
                     context.clearRect(0, 0, canvas.width, canvas.height);
                 }
             </script>
-            <button onclick="clearCanvas()" style="display: block; margin: 5% auto;">Очистить</button>
+            <button onclick="clearCanvas()" type="button">clear</button>
+            <button onclick="" type="button">start!</button>
+            <button onclick="document.location='../main.html'">home page</button>
         </div>
     </body>
 </html>
