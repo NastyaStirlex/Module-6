@@ -34,9 +34,9 @@ class Dot{
 }
 }
 class Cluster{
-constructor() {
-  this.x = Math.random()*400;
-  this.y = Math.random()*400;
+constructor(i, j) {
+  this.x =i;
+  this.y = j;
   this.groups = [];
   this.color = '#';
 }
@@ -82,7 +82,8 @@ function algorithm(){
       data[i] = new Dot(parseInt(mass[i].style.left, 10), parseInt(mass[i].style.top,10));
     }
     for (var i = 0; i<k;i++){
-      clusters[i] = new Cluster();
+      let value = parseInt(Math.random()*data.length+1, 10);
+      clusters[i] = new Cluster(data[value-1].x, data[value-1].y);
     }
     for (var i = 0; i<100;i++){
     groupsCreate();

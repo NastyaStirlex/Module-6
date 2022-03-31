@@ -3,9 +3,9 @@ var n;
 function getN(){
     n = document.getElementById('inp_1').value;
 }
-function removeFromArray(arr,elt){
+function removeFromArray(arr,elem){
     for (var i = arr.length-1;i>=0;i--){
-        if (arr[i]==elt){
+        if (arr[i]==elem){
             arr.splice(i,1);
         }
     }
@@ -19,7 +19,7 @@ function heuristic(a,b){
 var cols;
 var rows;
 var grid = new Array(cols);
-var mass = new Array(cols);
+var massDivs = new Array(cols);
 
 var openSet = [];
  var closeSet = [];
@@ -34,7 +34,7 @@ function setup(){
 
 for (var i = 0; i < n; i++) {
     grid[i]= new Array (rows);
-    mass[i]= new Array (rows);
+    massDivs[i]= new Array (rows);
     var row = createRow();
     for (var k = 0; k < n; k++) {
       createElement(row, i, k);
@@ -53,7 +53,7 @@ for (var i = 0; i < n; i++) {
     var elem = document.createElement('div');
     elem.className = "elem";
     parent.appendChild(elem);
-    mass[i][j] = elem;
+    massDivs[i][j] = elem;
   }
   
 }
@@ -91,7 +91,7 @@ function alg(){
             this.previous = null;
             this.wall = false;
             this.show = function () {
-                mass[i][j].classList.toggle('path')
+                massDivs[i][j].classList.toggle('path')
             };
             this.addNeighbors = function(grid){
                 var i = this.i;
@@ -108,7 +108,7 @@ function alg(){
                 if (j > 0){
                     this.neighbors.push(grid[i][j-1]);
                 }
-                if (i>0 && j>0){
+               if (i>0 && j>0){
                     this.neighbors.push(grid[i-1][j-1]);
                 }
                 if (i>0  && j<rows - 1){
@@ -117,13 +117,16 @@ function alg(){
                 if (i<cols -1  && j<rows - 1){
                     this.neighbors.push(grid[i+1][j+1]);
                 }
+                if (i<cols -1  && j>0){
+                    this.neighbors.push(grid[i+1][j-1]);
+                }
             }
         }
     }
     for (var i = 0; i < cols;i++){
         for (var j = 0; j < rows;j++){
            grid[i][j] = new Spot(i,j);
-           if (mass[i][j].classList.contains('wall') && !mass[i][j].classList.contains('begining')&& !mass[i][j].classList.contains('path')){
+           if (massDivs[i][j].classList.contains('wall') && !massDivs[i][j].classList.contains('begining')&& !massDivs[i][j].classList.contains('path')){
                grid[i][j].wall = true;
             }
     }
@@ -135,9 +138,9 @@ function alg(){
     }
     for (var i = 0; i < cols;i++){
         for (var j = 0; j < rows;j++){
-            if (start == 0 && mass[i][j].classList.contains('begining'))
+            if (start == 0 && massDivs[i][j].classList.contains('begining'))
             start = grid[i][j];
-            else if (start != 0 && mass[i][j].classList.contains('begining'))
+            else if (start != 0 && massDivs[i][j].classList.contains('begining'))
             end = grid[i][j];
         }       
     }
