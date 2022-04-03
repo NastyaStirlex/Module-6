@@ -1,0 +1,21 @@
+.page { 
+  position: relative; 
+  height: 400px; 
+  width: 400px;
+  border: 1px solid #666666;
+  background: rgb(248, 248, 248); 
+  display: inline-block;
+}
+.dot {
+    height: 8px; 
+    width: 8px;
+    border-radius: 4px;
+    background: rgb(66, 255, 84);
+    position: absolute;
+}
+.line {
+  position:absolute;
+  height: 2px;
+  width:100px;
+  background: rgb(62, 62, 62);
+}
