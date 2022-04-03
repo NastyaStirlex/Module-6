@@ -99,7 +99,7 @@ function algorithm(){
       var point = document.createElement('div');
       point.className = 'cluster';
       point.style.left = clusters[i].x  + 'px';
-      point.style.top = clusters[i].y -150+ 'px';
+      point.style.top = clusters[i].y + 'px';
       block.appendChild(point); //рисунок кластера
     }
     
