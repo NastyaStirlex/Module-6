@@ -28,7 +28,7 @@ void Matrix::Multi(const Matrix& m1, const double* neuron, int n, double* c)
 {
 	if (m1.col != n)
 		throw std::runtime_error("Error Multi \n");//iskluchenia
-	for (int i = 0; i < m1.row; i++) {
+	for (int i = 0; i < m1.row; ++i) {
 		double tmp = 0;
 		for (int j = 0; j < m1.col; ++j) {
 			tmp += m1.matrix[i][j] * neuron[j];
@@ -41,10 +41,10 @@ void Matrix::Multi_T(const Matrix& m1, const double* neuron, int n, double* c)
 {
 	if (m1.row != n)
 		throw std::runtime_error("Error Multi \n");//iskluchenia
-	for (int i = 0; i < m1.col; i++) {
+	for (int i = 0; i < m1.col; ++i) {
 		double tmp = 0;
 		for (int j = 0; j < m1.row; ++j) {
-			tmp += m1.matrix[i][j] * neuron[j];
+			tmp += m1.matrix[j][i] * neuron[j];
 		}
 		c[i] = tmp;
 	}

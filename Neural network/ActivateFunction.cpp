@@ -3,7 +3,7 @@
 
 void ActivateFunction::set()
 {
-	std::cout << "Set act Func pls\n1 - sigmoid \n2 - ReLU \n3 - th(x)\n";
+	std::cout << "Set actFunc pls\n1 - sigmoid \n2 - ReLU \n3 - th(x) \n";
 	int temp;
 	std::cin >> temp;
 	switch (temp)
@@ -20,9 +20,7 @@ void ActivateFunction::set()
 	default:
 		throw std::runtime_error("Error read actFunc");//выбрасываем исключения программа останавливается
 		break;
-
 	}
-
 }
 
 void ActivateFunction::use(double* value, int n) {//формулы
@@ -44,9 +42,9 @@ void ActivateFunction::use(double* value, int n) {//формулы
 		for (int i = 0; i < n; i++) 
 		{
 			if (value[i] < 0)
-				value[i] = 0.01 * (exp(value[i]) - exp(value[i])) / (exp(value[i]) + exp(-value[i]));
+				value[i] = 0.01 * (exp(value[i]) - exp(-value[i])) / (exp(value[i]) + exp(-value[i]));
 			else 
-				value[i] = (exp(value[i]) - exp(value[i])) / (exp(value[i]) + exp(-value[i]));
+				value[i] = (exp(value[i]) - exp(-value[i])) / (exp(value[i]) + exp(-value[i]));
 		}
 		break;
 	default:
@@ -60,11 +58,11 @@ void ActivateFunction::useDer(double* value, int n) {
 	{
 	case activateFunc::sigmoid:
 		for (int i = 0; i < n; i++)
-			value[i] = value[i]* (1 - value[i]);
+			value[i] = value[i] * (1 - value[i]);
 		break;
 	case activateFunc::ReLU:
 		for (int i = 0; i < n; i++) {
-			if (value[i] < 0 || value[i] >1)
+			if (value[i] < 0 || value[i] > 1)
 				value[i] = 0.01;
 			else
 				value[i] = 1;
@@ -74,7 +72,7 @@ void ActivateFunction::useDer(double* value, int n) {
 		for (int i = 0; i < n; i++)
 		{
 			if (value[i] < 0)
-				value[i] =0.01*(1 - value[i]* value[i]);
+				value[i] = 0.01 * (1 - value[i] * value[i]);
 			else
 				value[i] = 1 - value[i] * value[i];
 		}
@@ -91,7 +89,7 @@ double ActivateFunction::useDer(double value) {
 		value = 1 / (1 + exp(-value));
 		break;
 	case activateFunc::ReLU:
-		if (value < 0 || value >1)
+		if (value < 0 || value > 1)
 			value = 0.01;
 		break;
 	case activateFunc::thx:
@@ -101,7 +99,7 @@ double ActivateFunction::useDer(double value) {
 			value = (exp(value) - exp(-value)) / (exp(value) + exp(-value));
 		break;
 	default:
-		throw std::runtime_error("Error actFuncDer \n");
+		throw std::runtime_error("Error actFunc \n");
 		break;
 	}
 	return value;

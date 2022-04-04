@@ -11,32 +11,32 @@ void Network::Init(data_Network data)
 	{
 		size[i] = data.size[i];
 	}
-		weights = new Matrix[L - 1];
-		bios = new double* [L - 1];
-		for (int i = 0; i < L - 1; i++) {
-			weights[i].Init(size[i + 1], size[i]);
-			bios[i] = new double[size[i + 1]];
-			weights[i].Rand();
-			for (int j = 0; j < size[i + 1]; j++) 
-			{
-				bios[i][j] = ((rand() % 50)) * 0.06 / (size[i] + 15);
-			}
-		}
-		neurons_val = new double* [L]; neurons_err = new double* [L];
-		for (int i = 0; i < L; i++)
+	weights = new Matrix[L - 1];
+	bios = new double* [L - 1];
+	for (int i = 0; i < L - 1; i++) {
+		weights[i].Init(size[i + 1], size[i]);
+		bios[i] = new double[size[i + 1]];
+		weights[i].Rand();
+		for (int j = 0; j < size[i + 1]; j++) 
 		{
-			neurons_val = new double*[size[i]]; neurons_err = new double*[size[i]];
+			bios[i][j] = ((rand() % 50)) * 0.06 / (size[i] + 15);
 		}
-		neurons_bios_val = new double*[L - 1];
-		
-		for (int i = 0; i < L - 1; i++)
-			*neurons_bios_val[i] = 1;
+	}
+	neurons_val = new double* [L]; neurons_err = new double* [L];
+	for (int i = 0; i < L; i++)
+	{
+		neurons_val = new double*[size[i]]; neurons_err = new double*[size[i]];
+	}
+	neurons_bios_val = new double*[L - 1];
+	
+	for (int i = 0; i < L - 1; i++)
+		*neurons_bios_val[i] = 1;
 	
 }
 
 void Network::PrintConfig() {
 	cout << "******************************************************\n";
-	cout << "Network has" << L << "layers\nSIZE[]: ";
+	cout << "Network has " << L << " layers\nSIZE[]: ";
 	for (int i = 0; i < L; i++) {
 		cout << size[i] << " ";
 	}
@@ -44,7 +44,7 @@ void Network::PrintConfig() {
 	cout << "\n********************************************************\n\n";
 }
 
-void Network::SetInput(double* values) {//падаем мнист
+void Network::SetInput(double* values) {//подаем мнист
 	for (int i = 0; i < size[0]; i++) {
 		neurons_val[0][i] = values[i];
 	}
@@ -82,12 +82,12 @@ void Network::PrintValues(int L) {///на экран значение нейрона на этом слое
 
 void Network::BackPropogation(double expect) 
 {
-	for (int i = 1; i < size[L - 1]; i++)
+	for (int i = 0; i < size[L - 1]; i++)
 	{
 		if (i != int(expect))
-			neurons_err[L - 1][i] = neurons_val[L - 1][i] * actFunc.useDer(neurons_val[L - 1][i]);
+			neurons_err[L - 1][i] = -neurons_val[L - 1][i] * actFunc.useDer(neurons_val[L - 1][i]);
 		else 
-			neurons_err[L - 1][i] = (1.0 -neurons_val[L - 1][i]) * actFunc.useDer(neurons_val[L - 1][i]);
+			neurons_err[L - 1][i] = (1.0 - neurons_val[L - 1][i]) * actFunc.useDer(neurons_val[L - 1][i]);
 	}
 	for (int k = L - 2; k > 0; k--) 
 	{

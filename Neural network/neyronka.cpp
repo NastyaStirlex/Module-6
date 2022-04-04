@@ -7,15 +7,15 @@ struct data_info {
 };
 
 data_Network ReadDataNetwork(string path) {
-	data_Network data();
+	data_Network data{};
 	ifstream fin;
 	fin.open(path);
 	if (!fin.is_open()) {
-		cout << "Error reading the file" << path << endl;
+		cout << "Error reading the file " << path << endl;
 		system("pause");
 	}
 	else
-		cout << path << "loading...\n";//config
+		cout << path << " loading...\n";//config
 	string tmp;
 	int L;
 	while (!fin.eof()) {
@@ -38,16 +38,16 @@ data_info* ReadData(string path, const data_Network& data_NM, int& examples) {
 	ifstream fin;
 	fin.open(path);
 	if (!fin.is_open()) {
-		cout << "Error reading the file" << path << endl;
+		cout << "Error reading the file " << path << endl;
 		system("pause");
 	}
 	else
-		cout << path << "loading...\n";//config
+		cout << path << " loading...\n";//config
 	string tmp;
 	fin >> tmp;
 	if (tmp == "Examples") {
 		fin >> examples;//сколько обуч цифр
-		cout << "Examples:" << examples << endl;
+		cout << "Examples: " << examples << endl;
 		data = new data_info[examples];
 		for (int i = 0; i < examples; ++i)
 			data[i].pixels = new double[data_NM.size[0]];
@@ -84,7 +84,7 @@ int main()
 	NW.PrintConfig();//вывод конфигурации нейросети
 	
 	while (repeat) {
-		cout << "STUDY?(1/0)" << endl;
+		cout << "STUDY? (1/0)" << endl;
 		cin >> study;
 		if (study) {
 			int examples;
@@ -103,41 +103,41 @@ int main()
 					else ra++;
 				}
 				auto t2 = chrono::steady_clock::now();
-			//библиотека "времени"
+				//библиотека "времени"
 				time = t2 - t1;
 				if (ra > maxra) maxra = ra;
-				cout << "ra: " << ra / examples * 100 << "\t" << "maxra: " << maxra / examples * 100;
+				cout << "ra: " << ra / examples * 100 << "\t" << "maxra: " << maxra / examples * 100 << "\t" << "epoch: " << epoch << "\tTIME: " << time.count() << endl;;
 				epoch++;
 				if (epoch == 20)
 					break;
 			}
 			auto end = chrono::steady_clock::now();
 			time = end - begin;
-			cout << "TIME: " << time.count() / 60. << "min" << endl;
+			cout << "TIME: " << time.count() / 60. << " min" << endl;
 			NW.SaveWeights();
 		}
 		else { NW.ReadWeights(); }//если обучилась
-	}
-	cout << "TEST? (1/0)\n";
-	bool test_flag;
-	cin >> test_flag;
-	if (test_flag) 
-	{
-		int ex_tests;
-		data_info* data_test;
-		data_test = ReadData("lib_10k.txt", NW_config, ex_tests);//проверочные
-		ra = 0;
-		for (int i = 0; i < ex_tests; ++i) {
-			NW.SetInput(data_test[i].pixels);
-			predict = NW.ForwardFeed();
-			right = data_test[i].digit;
-			if (right == predict)
-				ra++;
+		cout << "TEST? (1/0)\n";
+		bool test_flag;
+		cin >> test_flag;
+		if (test_flag)
+		{
+			int ex_tests;
+			data_info* data_test;
+			data_test = ReadData("lib_10k.txt", NW_config, ex_tests);//проверочные
+			ra = 0;
+			for (int i = 0; i < ex_tests; ++i) {
+				NW.SetInput(data_test[i].pixels);
+				predict = NW.ForwardFeed();
+				right = data_test[i].digit;
+				if (right == predict)
+					ra++;
+			}
+			cout << "RA: " << ra / ex_tests * 100 << endl;
 		}
-		cout << "RA: " << ra / ex_tests * 100 << endl;
+		cout << "Repeat? (1/0)\n";
+		cin >> repeat;
 	}
-	cout << "Repeat? (1/0)\n";
-	cin >> repeat;
 	system("pause");
 	return 0;
 }
