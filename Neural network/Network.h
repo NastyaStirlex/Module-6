@@ -7,13 +7,13 @@ using namespace std;
 struct data_Network { int L; int* size; };
 class Network
 {
-	int L;//слои
-	int* size;//нейроны на каждом слое
+	int L;//СЃР»РѕРё
+	int* size;//РЅРµР№СЂРѕРЅС‹ РЅР° РєР°Р¶РґРѕРј СЃР»РѕРµ
 	ActivateFunction actFunc;
 	Matrix* weights;
-	double** bios;//веса смещения
-	double** neurons_val, ** neurons_err;//веса ошибки для нейронов
-	double** neurons_bios_val;//значения нейронов смещения
+	double** bios;//РІРµСЃР° СЃРјРµС‰РµРЅРёСЏ
+	double** neurons_val, ** neurons_err;//РІРµСЃР° РѕС€РёР±РєРё РґР»СЏ РЅРµР№СЂРѕРЅРѕРІ
+	double* neurons_bios_val;//Р·РЅР°С‡РµРЅРёСЏ РЅРµР№СЂРѕРЅРѕРІ СЃРјРµС‰РµРЅРёСЏ
 public:
 	void Init(data_Network data);
 	void PrintConfig();
