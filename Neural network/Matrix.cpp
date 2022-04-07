@@ -1,5 +1,5 @@
 #include "Matrix.h"
-#include <iostream>
+
 void Matrix::Init(int row, int col) 
 {
 	this->row = row; this->col = col;
