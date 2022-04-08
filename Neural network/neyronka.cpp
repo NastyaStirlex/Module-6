@@ -3,18 +3,30 @@
 #include <chrono>
 #include <fstream>
 #include <iostream>
-using namespace std; // из Network.h
+using namespace std; // РёР· Network.h
 
 struct data_Network { int L; int* size; };
 
+enum activateFunc { sigmoid = 1, ReLU, thx };
+
+class ActivateFunction {
+    activateFunc actFunc; //РѕР±СЉРµРєС‚ РїРµСЂРµС‡РёСЃР»СЏРµРјРѕРіРѕ С‚РёРїР°
+public:
+    void set();
+    void use(double* value, int n);
+    void useDer(double* value, int n); //РїСЂРѕРёР·РІРѕРґРЅР°СЏ
+    double useDer(double value);
+};
+
+
 class Network {
-    int L; //слои
-    int* size; //нейроны на каждом слое
+    int L; //СЃР»РѕРё
+    int* size; //РЅРµР№СЂРѕРЅС‹ РЅР° РєР°Р¶РґРѕРј СЃР»РѕРµ
     ActivateFunction actFunc;
     Matrix* weights;
-    double** bios; //веса смещения
-    double** neurons_val, ** neurons_err; //веса ошибки для нейронов
-    double* neurons_bios_val; //значения нейронов смещения
+    double** bios; //РІРµСЃР° СЃРјРµС‰РµРЅРёСЏ
+    double** neurons_val, ** neurons_err; //РІРµСЃР° РѕС€РёР±РєРё РґР»СЏ РЅРµР№СЂРѕРЅРѕРІ
+    double* neurons_bios_val; //Р·РЅР°С‡РµРЅРёСЏ РЅРµР№СЂРѕРЅРѕРІ СЃРјРµС‰РµРЅРёСЏ
 public:
     void Init(data_Network data);
     void PrintConfig();
@@ -38,23 +50,113 @@ public:
     void Init(int row, int col);
     void Rand();
     static void Multi(const Matrix& m, const double* b, int n, double* c);
-    static void Multi_T(const Matrix& m, const double* b, int n, double* c); //умножение транспонированной матрицы
+    static void Multi_T(const Matrix& m, const double* b, int n, double* c); //СѓРјРЅРѕР¶РµРЅРёРµ С‚СЂР°РЅСЃРїРѕРЅРёСЂРѕРІР°РЅРЅРѕР№ РјР°С‚СЂРёС†С‹
     static void SumVector(double* a, const double* b, int n);
-    double& operator()(int i, int j); //перегрузка оператора()
+    double& operator()(int i, int j); //РїРµСЂРµРіСЂСѓР·РєР° РѕРїРµСЂР°С‚РѕСЂР°()
     friend std::ostream& operator << (std::ostream& os, const Matrix& m);
     friend std::istream& operator >> (std::istream& is, Matrix& m);
 };
 
-enum activateFunc { sigmoid = 1, ReLU, thx };
 
-class ActivateFunction {
-    activateFunc actFunc; //объект перечисляемого типа
-public:
-    void set();
-    void use(double* value, int n);
-    void useDer(double* value, int n); //производная
-    double useDer(double value);
-};
+
+void ActivateFunction::set() {
+    std::cout << "Set act Func pls\n1 - sigmoid \n2 - ReLU \n3 - th(x)\n";
+    int temp;
+    std::cin >> temp;
+    switch (temp) {
+    case sigmoid:
+        actFunc = sigmoid;
+        break;
+    case ReLU:
+        actFunc = ReLU;
+        break;
+    case thx:
+        actFunc = thx;
+        break;
+    default:
+        throw std::runtime_error("Error read actFunc"); //РІС‹Р±СЂР°СЃС‹РІР°РµРј РёСЃРєР»СЋС‡РµРЅРёСЏ РїСЂРѕРіСЂР°РјРјР° РѕСЃС‚Р°РЅР°РІР»РёРІР°РµС‚СЃСЏ
+        break;
+
+    }
+}
+
+void ActivateFunction::use(double* value, int n) { //С„РѕСЂРјСѓР»С‹
+    switch (actFunc) {
+    case activateFunc::sigmoid:
+        for (int i = 0; i < n; i++)
+            value[i] = 1 / (1 + exp(-value[i]));
+        break;
+    case activateFunc::ReLU:
+        for (int i = 0; i < n; i++) {
+            if (value[i] < 0)
+                value[i] *= 0.01;
+            else if (value[i] > 1)
+                value[i] = 1. + 0.01 * (value[i] - 1.);//else value=value
+        }
+        break;
+    case activateFunc::thx:
+        for (int i = 0; i < n; i++) {
+            if (value[i] < 0)
+                value[i] = 0.01 * (exp(value[i]) - exp(-value[i])) / (exp(value[i]) + exp(-value[i]));
+            else
+                value[i] = (exp(value[i]) - exp(-value[i])) / (exp(value[i]) + exp(-value[i]));
+        }
+        break;
+    default:
+        throw std::runtime_error("Error actFunc \n");
+        break;
+    }
+}
+
+void ActivateFunction::useDer(double* value, int n) {
+    switch (actFunc) {
+    case activateFunc::sigmoid:
+        for (int i = 0; i < n; i++)
+            value[i] = value[i] * (1 - value[i]);
+        break;
+    case activateFunc::ReLU:
+        for (int i = 0; i < n; i++) {
+            if (value[i] < 0 || value[i] >1)
+                value[i] = 0.01;
+            else
+                value[i] = 1;
+        }
+        break;
+    case activateFunc::thx:
+        for (int i = 0; i < n; i++) {
+            if (value[i] < 0)
+                value[i] = 0.01 * (1 - value[i] * value[i]);
+            else
+                value[i] = 1 - value[i] * value[i];
+        }
+        break;
+    default:
+        throw std::runtime_error("Error actFuncDer \n");
+        break;
+    }
+}
+
+double ActivateFunction::useDer(double value) {
+    switch (actFunc) {
+    case activateFunc::sigmoid:
+        value = 1 / (1 + exp(-value));
+        break;
+    case activateFunc::ReLU:
+        if (value < 0 || value >1)
+            value = 0.01;
+        break;
+    case activateFunc::thx:
+        if (value < 0)
+            value = 0.01 * (exp(value) - exp(-value)) / (exp(value) + exp(-value));
+        else
+            value = (exp(value) - exp(-value)) / (exp(value) + exp(-value));
+        break;
+    default:
+        throw std::runtime_error("Error actFuncDer \n");
+        break;
+    }
+    return value;
+}
 
 struct data_info {
     double* pixels;
@@ -330,105 +432,6 @@ std::istream& operator >>(std::istream& is, Matrix& m) {
         }
     }
     return is;
-}
-
-void ActivateFunction::set() {
-    std::cout << "Set act Func pls\n1 - sigmoid \n2 - ReLU \n3 - th(x)\n";
-    int temp;
-    std::cin >> temp;
-    switch (temp) {
-    case sigmoid:
-        actFunc = sigmoid;
-        break;
-    case ReLU:
-        actFunc = ReLU;
-        break;
-    case thx:
-        actFunc = thx;
-        break;
-    default:
-        throw std::runtime_error("Error read actFunc"); //выбрасываем исключения программа останавливается
-        break;
-
-    }
-}
-
-void ActivateFunction::use(double* value, int n) { //формулы
-    switch (actFunc) {
-    case activateFunc::sigmoid:
-        for (int i = 0; i < n; i++)
-            value[i] = 1 / (1 + exp(-value[i]));
-        break;
-    case activateFunc::ReLU:
-        for (int i = 0; i < n; i++) {
-            if (value[i] < 0)
-                value[i] *= 0.01;
-            else if (value[i] > 1)
-                value[i] = 1. + 0.01 * (value[i] - 1.);//else value=value
-        }
-        break;
-    case activateFunc::thx:
-        for (int i = 0; i < n; i++) {
-            if (value[i] < 0)
-                value[i] = 0.01 * (exp(value[i]) - exp(-value[i])) / (exp(value[i]) + exp(-value[i]));
-            else
-                value[i] = (exp(value[i]) - exp(-value[i])) / (exp(value[i]) + exp(-value[i]));
-        }
-        break;
-    default:
-        throw std::runtime_error("Error actFunc \n");
-        break;
-    }
-}
-
-void ActivateFunction::useDer(double* value, int n) {
-    switch (actFunc) {
-    case activateFunc::sigmoid:
-        for (int i = 0; i < n; i++)
-            value[i] = value[i] * (1 - value[i]);
-        break;
-    case activateFunc::ReLU:
-        for (int i = 0; i < n; i++) {
-            if (value[i] < 0 || value[i] >1)
-                value[i] = 0.01;
-            else
-                value[i] = 1;
-        }
-        break;
-    case activateFunc::thx:
-        for (int i = 0; i < n; i++) {
-            if (value[i] < 0)
-                value[i] = 0.01 * (1 - value[i] * value[i]);
-            else
-                value[i] = 1 - value[i] * value[i];
-        }
-        break;
-    default:
-        throw std::runtime_error("Error actFuncDer \n");
-        break;
-    }
-}
-
-double ActivateFunction::useDer(double value) {
-    switch (actFunc) {
-    case activateFunc::sigmoid:
-        value = 1 / (1 + exp(-value));
-        break;
-    case activateFunc::ReLU:
-        if (value < 0 || value >1)
-            value = 0.01;
-        break;
-    case activateFunc::thx:
-        if (value < 0)
-            value = 0.01 * (exp(value) - exp(-value)) / (exp(value) + exp(-value));
-        else
-            value = (exp(value) - exp(-value)) / (exp(value) + exp(-value));
-        break;
-    default:
-        throw std::runtime_error("Error actFuncDer \n");
-        break;
-    }
-    return value;
 }
 
 int main() {
