@@ -18,6 +18,7 @@
             h = canvas.height;
             var mouse = { x:0, y:0 };
             var draw = false;
+            context.lineWidth = 45;
 
             canvas.addEventListener("mousedown", function(e){
                 mouse.x = e.pageX - this.offsetLeft;
@@ -48,8 +49,26 @@
                 function clearCanvas() {
                     context.clearRect(0, 0, canvas.width, canvas.height);
                 }
+                function getImage(canvas){
+                    var imageData = canvas.toDataURL();
+                    var image = new Image();
+                    image.src = imageData;
+                    return image;
+                }
+                function saveImage(image) {
+                    var link = document.createElement("a");
+                
+                    link.setAttribute("href", image.src);
+                    link.setAttribute("download", "canvasImage");
+                    link.click();
+                }
+                function saveCanvasAsImageFile(){
+                    var image = getImage(document.getElementById("myCanvas"));
+                    saveImage(image);
+                }
             </script>
             <button onclick="clearCanvas()" type="button">clear</button>
+            <button onclick="saveCanvasAsImageFile()">save</button>
             <button onclick="" type="button">start!</button>
             <button onclick="document.location='../main.html'">home page</button>
         </div>
