@@ -1,3 +1,0 @@
-﻿  source_end.cpp
-C:\Users\Анастасия\OneDrive\Рабочий стол\Projects\Module-6\Neural network\source_end\source_end.cpp(228,15): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
-  source_end.vcxproj -> C:\Users\Анастасия\OneDrive\Рабочий стол\Projects\Module-6\Neural network\x64\Debug\source_end.exe
