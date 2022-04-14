@@ -54,6 +54,9 @@ for (var i = 0; i < n; i++) {
     elem.className = "elem";
     parent.appendChild(elem);
     massDivs[i][j] = elem;
+    if (random(1)<0.3){
+        massDivs[i][j].classList.toggle('wall');
+    }
   }
   
 }
@@ -91,7 +94,13 @@ function alg(){
             this.previous = null;
             this.wall = false;
             this.show = function () {
-                massDivs[i][j].classList.toggle('path')
+                massDivs[i][j].style.background= '#b300ff';
+            };
+            this.show1 = function () {
+                massDivs[i][j].classList.toggle('openS')
+            };
+            this.show2 = function () {
+                massDivs[i][j].classList.toggle('closeS')
             };
             this.addNeighbors = function(grid){
                 var i = this.i;
@@ -185,8 +194,19 @@ function alg(){
                 }
             }
         }
+        
     }  
-
+   
+        for (var i = 0; i<closeSet.length; i++){
+            closeSet[i].show1();
+        }
+    
+        
+    
+        for (var i = 0; i<openSet.length; i++){
+                openSet[i].show2();
+        }
+    
     if (openSet.length = 0 || current != end) {
         iddiv.innerHTML="No solution";
         nosolution = true;

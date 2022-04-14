@@ -2,12 +2,29 @@ body, html {
   height: 100%;
   margin: 0px;
   font-family: 'Roboto', sans-serif;
-  background: linear-gradient(20deg, #eeaeca 0%, #94bbe9 100%);
+  background: linear-gradient(270deg, #ffcbe2 0%, #94bbe9 100%);
 }
 
+/*ПОЛЕ ВВОДА*/
+input {
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.2rem;
+  color: #a179d8;
+  text-shadow: 1px -1px 3px #8fa2c7, -1px 1px 3px #c097b2;
+	margin: 0 15px;
+  padding: 1.2rem 2rem;
+  border-radius: 0.2rem;
+  background-color: linear-gradient(20deg, #eeaeca 0%, #94bbe9 100%);
+  border: none;
+  width: 10%;
+  border-bottom: 0.3rem solid transparent;
+  transition: all 0.3s;
+}
 /*КНОПКА*/
 button {
-  margin: 5px;
+  position: relative;
+  margin: 10px;
+  
   padding: auto;
   border: none;
   border-radius: 35%;
@@ -37,25 +54,12 @@ button:active {
   transition: background 0.3s, color 0.2s, text-shadow 0.3s, box-shadow 0.3s;
 }
 
-/*ПОЛЕ ВВОДА*/
-input {
-  font-family: 'Roboto', sans-serif;
-  font-size: 1.2rem;
-  color: #a179d8;
-  text-shadow: 1px -1px 3px #8fa2c7, -1px 1px 3px #c097b2;
-	margin: 0 15px;
-  padding: 1.2rem 2rem;
-  border-radius: 0.2rem;
-  background-color: linear-gradient(20deg, #eeaeca 0%, #94bbe9 100%);
-  border: none;
-  width: 10%;
-  border-bottom: 0.3rem solid transparent;
-  transition: all 0.3s;
-}
 
 #parent {
   display: flex;
   flex-direction: column;
+  top: 0;
+  left: 0;
 }
 
 .row {
@@ -67,16 +71,21 @@ input {
   height: 25px;
   border: 1px solid rgb(0, 0, 0);
   display: inline-block;
+  top: 50%;
+  margin: 0 0 0 0;
 }
 
 .wall {
-  background: rgb(61, 61, 61);
+  background: #131e2c;
 }
 
 .begining {
-  background: rgb(255, 152, 67);
+  background: #de48e8;
 }
 
-.path {
-  background: rgb(139, 96, 241);
+.openS {
+  background: #2fa35991;
+}
+.closeS {
+  background: #c58839c7;
 }
