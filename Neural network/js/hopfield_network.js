@@ -68,7 +68,7 @@ class Network
 		this.x = x
 		this.images = images;
 		this.w = this.x[0].map( line => this.x[0].map( value => 0 ) );
-		this.deference = 530;
+		this.deference = 520;
 		this.x.forEach( (example,index) => {
 			example.forEach( (value, indexValue) => {
 				for(let i = 0; i < example.length; i++) {
@@ -156,7 +156,7 @@ class Canvas {
 		let draw = false,
 			context = this.context;
 			context.strokeStyle = 'black'
-			context.lineWidth = 3;
+			context.lineWidth = 3.3;
 		this.obj.addEventListener("mousedown", function(e){
 				let x = e.pageX - this.offsetLeft,
 					y = e.pageY - this.offsetTop;
@@ -196,7 +196,7 @@ class Canvas {
 		this.context.fillRect(0, 0, this.width, this.height);
 	}
 }
-let input = new Input(50, "images/png/numbers", "png", 1);
+let input = new Input(155, "images/png/numbers", "png", 1);
 window.onload = () => {
 	input.load();
 	network = new Network(input.pixels, input.images);
