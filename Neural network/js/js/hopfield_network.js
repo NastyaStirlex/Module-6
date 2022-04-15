@@ -68,7 +68,7 @@ class Network
 		this.x = x
 		this.images = images;
 		this.w = this.x[0].map( line => this.x[0].map( value => 0 ) );
-		this.deference = 650;
+		this.deference = 530;
 		this.x.forEach( (example,index) => {
 			example.forEach( (value, indexValue) => {
 				for(let i = 0; i < example.length; i++) {
@@ -201,6 +201,7 @@ window.onload = () => {
 	input.load();
 	network = new Network(input.pixels, input.images);
 	can = new Canvas("New_canvas", [50,50], document.body);
+	document.getElementById('New_canvas').style.border = '2.5px solid #a179d8';
 
 	document.querySelector(".clear").addEventListener("click", function(){
 			can.allFill()
