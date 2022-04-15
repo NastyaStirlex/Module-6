@@ -196,7 +196,7 @@ class Canvas {
 		this.context.fillRect(0, 0, this.width, this.height);
 	}
 }
-let input = new Input(155, "images/png/numbers", "png", 1);
+let input = new Input(176, "images/png/numbers", "png", 1);
 window.onload = () => {
 	input.load();
 	network = new Network(input.pixels, input.images);
