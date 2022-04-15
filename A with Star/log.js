@@ -1,9 +1,9 @@
 var n;
 
 function getN(){
-    n = document.getElementById('inp_1').value;
+    n = document.getElementById('inp_1').value; //считываем размер сетки
 }
-function removeFromArray(arr,elem){
+function removeFromArray(arr,elem){ //удаляем элемент из массива
     for (var i = arr.length-1;i>=0;i--){
         if (arr[i]==elem){
             arr.splice(i,1);
@@ -11,8 +11,8 @@ function removeFromArray(arr,elem){
     }
 }
 
-function heuristic(a,b){
-    var d = Math.max(abs(a.i - b.i),abs(a.j - b.j));
+function heuristic(a, b){
+    var d = Math.max(abs(a.i - b.i),abs(a.j - b.j)); //Расстояние Чебышева
     return d;
 }
 
@@ -32,6 +32,7 @@ function setup(){
     cols = n;
     rows = n;
 
+    //создание сетки
 for (var i = 0; i < n; i++) {
     grid[i]= new Array (rows);
     massDivs[i]= new Array (rows);
@@ -60,7 +61,7 @@ for (var i = 0; i < n; i++) {
   }
   
 }
-
+//выбираем стенки
 function chooseWalls() {
     let boxes = document.querySelectorAll('.elem');
 
@@ -71,7 +72,7 @@ function chooseWalls() {
     })
     
 }
-
+//выбираем начало и конец
 function chooseBeginandEnd(){
     let boxes = document.querySelectorAll('.elem');
 
@@ -83,17 +84,17 @@ function chooseBeginandEnd(){
 }
 
 function alg(){
-    class Spot {
+    class Spot { //класс для каждой клетки
         constructor(i, j) {
-            this.i = i;
-            this.j = j;
-            this.f = 0;
-            this.g = 0;
-            this.h = 0;
-            this.neighbors = [];
-            this.previous = null;
-            this.wall = false;
-            this.show = function () {
+            this.i = i; //координата х
+            this.j = j; //координата у
+            this.f = 0; //значение эвристической функции "расстояние + стоимость" для вершины
+            this.g = 0; //стоимость пути от начальной вершины до x
+            this.h = 0; //эвристическая оценка расстояния от вершины x до конечной вершины
+            this.neighbors = []; //соседи
+            this.previous = null; //предыдущая вершина
+            this.wall = false; //стена или нет
+            this.show = function () {  //меняем цвет
                 massDivs[i][j].style.background= '#b300ff';
             };
             this.show1 = function () {
@@ -102,7 +103,7 @@ function alg(){
             this.show2 = function () {
                 massDivs[i][j].classList.toggle('closeS')
             };
-            this.addNeighbors = function(grid){
+            this.addNeighbors = function(grid){  //добавляем соседей
                 var i = this.i;
                 var j = this.j;
                 if (i < cols-1){
@@ -136,58 +137,58 @@ function alg(){
         for (var j = 0; j < rows;j++){
            grid[i][j] = new Spot(i,j);
            if (massDivs[i][j].classList.contains('wall') && !massDivs[i][j].classList.contains('begining')&& !massDivs[i][j].classList.contains('path')){
-               grid[i][j].wall = true;
+               grid[i][j].wall = true;  //смотрим стена или нет
             }
     }
     }
     for (var i = 0; i < cols;i++){
         for (var j = 0; j < rows;j++){
-            grid[i][j].addNeighbors(grid);
+            grid[i][j].addNeighbors(grid);  
         }       
     }
     for (var i = 0; i < cols;i++){
         for (var j = 0; j < rows;j++){
             if (start == 0 && massDivs[i][j].classList.contains('begining'))
-            start = grid[i][j];
+            start = grid[i][j];  //пишем старт
             else if (start != 0 && massDivs[i][j].classList.contains('begining'))
-            end = grid[i][j];
+            end = grid[i][j];  //сохраняем выход
         }       
     }
-    openSet.push(start);
+    openSet.push(start);  //добавляем начало
     while (openSet.length > 0){
-        var winner = 0;
+        var winner = 0;  //индекс лучшей вершины
         for (var i = 0; i<openSet.length;i++){
-            if (openSet[i].f < openSet[winner].f){
+            if (openSet[i].f < openSet[winner].f){ //сравниваем значение функции
                 winner = i;
             }
         }
-        var current = openSet[winner];
+        var current = openSet[winner];  //текущая - лучшая 
         if (current == end){
-            break;
+            break;  //если дошли до конца
         }
 
-        removeFromArray(openSet,current);
-        closeSet.push(current);
+        removeFromArray(openSet,current); //удаляем из массива
+        closeSet.push(current);  //просмотрели вершину
 
-        var neighbors = current.neighbors;
+        var neighbors = current.neighbors;  //просматриваем всех соседей
         for (var i = 0; i < neighbors.length; i++){
             var neighbor = neighbors[i];
 
             if (!closeSet.includes(neighbor) && !neighbor.wall){
-                var tempG = current.g + 1;
+                var tempG = current.g + 1;  //увеличиваем длину пройденного
                 
-                var newPath = false;
-                if (openSet.includes(neighbor)){
+                var newPath = false;  //новый ли путь
+                if (openSet.includes(neighbor)){ //если мы ещё не посетили соседа
                     if (tempG < neighbor.g){
-                        neighbor.g = tempG;
+                        neighbor.g = tempG;  //если длина меньше, то перезаписываем
                     }
                 }
-                else {
-                    neighbor.g = tempG;
+                else {  //если уже посетили соседа, то создаём новый путь
+                    neighbor.g = tempG; 
                     newPath = true;
                     openSet.push(neighbor);
                 }
-                if (newPath){
+                if (newPath){  //если новый путь
                     neighbor.h = heuristic(neighbor, end);
                     neighbor.f = neighbor.g + neighbor.h;
                     neighbor.previous = current;
@@ -211,7 +212,7 @@ function alg(){
         iddiv.innerHTML="No solution";
         nosolution = true;
     }
-    if (!nosolution){
+    if (!nosolution){  //показываем путь
             path = [];
                     var temp = current;
                     path.push(temp);

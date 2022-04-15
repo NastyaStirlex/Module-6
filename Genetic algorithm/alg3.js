@@ -74,14 +74,15 @@ function distance(array){
   }
   return meaning;
 }
+
 function generatePopulation(){
   let array = [];
   let randomIndex = Math.floor(Math.random() * data.length);
   for (var j = randomIndex; j<data.length;j++){
-    array.push (data[j]);
+    array.push(data[j]);
     }
     for (var i = 0; i<randomIndex;i++){
-    array.push (data[i]);
+    array.push(data[i]);
     }
   return array; 
 }
@@ -97,7 +98,8 @@ function mutation(array, dist1){
   if (city1 > city2) 
     [city1, city2] = [city2, city1];
 
-  for (let i = city1, j = city2; j-i > 0; i++, j--) [array[i], array[j]] = [array[j], array[i]];
+  for (let i = city1, j = city2; j-i > 0; i++, j--) 
+    [array[i], array[j]] = [array[j], array[i]];
   
   dist2 = distance(array);
 
@@ -157,15 +159,14 @@ function algorithm(){
         createLine(data[j],data[i]);
     }
 }
-roads.sort((a,b) => {return a.dist >= b.dist ? 1: a === b ? 0: -1});
 
-for (var i = 0; i<50;i++){
+for (var i = 0; i<25; i++){
   let array = generatePopulation();
   let dist = distance(array);
   var generation = new Generation(array,dist);
   elements.push(generation);
 }
-
+elements.sort((a,b) => {return a.dist >= b.dist ? 1: a === b ? 0: -1});
 for (var sets = 0; sets < 400; sets++){
    fit = elements[0].dist;
    for (var i = 0; i<elements.length - 1;i++){
@@ -178,7 +179,6 @@ for (var sets = 0; sets < 400; sets++){
     }
   }
   elements.sort((a,b) => {return a.dist >= b.dist ? 1: a === b ? 0: -1});
-  
 }
 
 for (var i = 0; i<elements[0].generation.length;i++){
