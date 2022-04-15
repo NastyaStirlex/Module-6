@@ -11,8 +11,8 @@ function pointDots() {
 block.onclick = function(e) {
   var point = document.createElement('div');
   point.className = 'dot';
-  point.style.left = e.pageX  + 'px';
-  point.style.top = e.pageY  + 'px';
+  point.style.left = e.pageX -5+ 'px';
+  point.style.top = e.pageY -5+ 'px';
   document.body.appendChild(point);
   mass.push(point);
 }
@@ -151,12 +151,13 @@ function algorithm(){
     for (var i = 0; i<mass.length;i++){
         data[i] = new Dot(parseInt(mass[i].style.left, 10), parseInt(mass[i].style.top,10));
       }
-    for (var i = 0; i<mass.length;i++){
-        for (var j = i+1; j<mass.length;j++){
+    for (var i = 0; i<data.length;i++){
+        for (var j = i+1; j<data.length;j++){
         createLine(data[i],data[j]);
         createLine(data[j],data[i]);
     }
 }
+roads.sort((a,b) => {return a.dist >= b.dist ? 1: a === b ? 0: -1});
 
 for (var i = 0; i<50;i++){
   let array = generatePopulation();
@@ -165,23 +166,21 @@ for (var i = 0; i<50;i++){
   elements.push(generation);
 }
 
-for (var sets = 0; sets < 70; sets++){
-   fit = elements[0].generation.dist;
+for (var sets = 0; sets < 400; sets++){
+   fit = elements[0].dist;
    for (var i = 0; i<elements.length - 1;i++){
     for (var j = i+1; j<elements.length -1; j++){
-      let array = crossing(elements[i].generation,elements[j].generation);
-      if (array){
-       elements.push(array);
+      let newArray = crossing(elements[i].generation,elements[j].generation);
+      if (newArray){
+                elements.pop();
+                elements.push(newArray);
       }
     }
   }
- elements.sort((a,b) => {return a.dist >= b.dist ? 1: a === b ? 0: -1});
- while (elements.length>60){
-   elements.pop();
- }
+  elements.sort((a,b) => {return a.dist >= b.dist ? 1: a === b ? 0: -1});
+  
 }
 
-console.log(elements);
 for (var i = 0; i<elements[0].generation.length;i++){
   for (var j = 0; j<roads.length; j++){
     if(elements[0].generation[i]==roads[j].start && elements[0].generation[i+1]==roads[j].end){
@@ -198,5 +197,6 @@ for (var i = 0; i<elements[0].generation.length;i++){
       }
     }
   }
+  iddiv.innerHTML=elements[0].dist;
 }
 

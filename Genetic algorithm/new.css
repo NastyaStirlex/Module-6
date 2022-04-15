@@ -2,20 +2,20 @@
   position: relative; 
   height: 500px; 
   width: 500px;
-  border: 6px solid #ffff00;
-  background: rgb(248, 248, 248); 
+  border: 6px solid #ff0099;
+  background: rgba(255, 234, 234, 0.575); 
   display: inline-block;
 }
 .dot {
     height: 15px; 
     width: 15px;
     border-radius: 12px;
-    background: rgb(255, 115, 0);
+    background: rgb(241, 32, 74);
     position: absolute;
 }
 .line {
   position:absolute;
   height: 2px;
   width:200px;
-  background: rgb(0, 0, 0);
+  background: rgb(19, 20, 88);
 }
