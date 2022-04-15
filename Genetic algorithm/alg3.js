@@ -49,8 +49,8 @@ function createDivLine(lines){
     var newLine = document.createElement('div');
     newLine.id = 'line';
     newLine.className = 'line';
-    newLine.style.left=a.x - 6+'px';
-    newLine.style.top=a.y -6+'px';
+    newLine.style.left=a.x +'px';
+    newLine.style.top=a.y +'px';
     newLine.style.width=lines.dist+'px';
     newLine.style.transform='rotate(' + Math.round(angle) + 'deg)';
     newLine.style.transformOrigin =0+"px"; 
