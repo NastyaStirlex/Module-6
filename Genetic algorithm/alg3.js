@@ -120,26 +120,26 @@ function crossing(gen1, gen2){
     }
     
   if (array.length != gen1.length){
-   for (var i = 0; i<gen1.length;i++){
-     if (!array.includes(gen1[i])){
-      array.push(gen1[i]);
+    for (var i = 0; i<gen1.length;i++){
+      if (!array.includes(gen1[i])){
+        array.push(gen1[i]);
     }
 
   }
- }
- dist = distance(array);
- let changeArr = [];
- for (let i = 0; i < gen1.length; i++){
-   changeArr = mutation(array, dist);
- }
- let newGen;
- if (array != changeArr){
-   dist = distance(changeArr);
-   newGen = new Generation(changeArr,dist);
- }
- else{
-    newGen = new Generation(array,dist);
- }
+  }
+  dist = distance(array);
+  let changeArr = [];
+  for (let i = 0; i < gen1.length; i++){
+    changeArr = mutation(array, dist);
+  }
+  let newGen;
+  if (array != changeArr){
+    dist = distance(changeArr);
+    newGen = new Generation(changeArr,dist);
+  }
+  else{
+      newGen = new Generation(array,dist);
+  }
   if (dist<=fit){
     return newGen;
   }
@@ -168,17 +168,18 @@ for (var i = 0; i<25; i++){
 }
 elements.sort((a,b) => {return a.dist >= b.dist ? 1: a === b ? 0: -1});
 for (var sets = 0; sets < 400; sets++){
-   fit = elements[0].dist;
-   for (var i = 0; i<elements.length - 1;i++){
-    for (var j = i+1; j<elements.length -1; j++){
-      let newArray = crossing(elements[i].generation,elements[j].generation);
-      if (newArray){
-                elements.pop();
-                elements.push(newArray);
+    fit = elements[0].dist;
+    for (var i = 0; i<elements.length - 1;i++){
+      for (var j = i+1; j<elements.length -1; j++){
+        let newArray = crossing(elements[i].generation,elements[j].generation);
+        if (newArray){
+          elements.pop();
+          elements.push(newArray);
+        }
       }
     }
-  }
   elements.sort((a,b) => {return a.dist >= b.dist ? 1: a === b ? 0: -1});
+  iddiv.innerHTML=elements[0].dist;
 }
 
 for (var i = 0; i<elements[0].generation.length;i++){
@@ -197,6 +198,5 @@ for (var i = 0; i<elements[0].generation.length;i++){
       }
     }
   }
-  iddiv.innerHTML=elements[0].dist;
 }
 

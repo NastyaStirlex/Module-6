@@ -22,11 +22,11 @@ var grid = new Array(cols);
 var massDivs = new Array(cols);
 
 var openSet = [];
- var closeSet = [];
- var start = 0;
- var end = 0;
- var path = [];
- var nosolution = false;  
+var closeSet = [];
+var start = 0;
+var end = 0;
+var path = [];
+var nosolution = false;  
 
 function setup(){
     cols = n;
@@ -38,19 +38,19 @@ for (var i = 0; i < n; i++) {
     massDivs[i]= new Array (rows);
     var row = createRow();
     for (var k = 0; k < n; k++) {
-      createElement(row, i, k);
+        createElement(row, i, k);
     };
-  };
-  
-  function createRow() {
+};
+
+function createRow() {
     var parent = document.getElementById('parent');
     var row = document.createElement('div');
     row.className = "row";
     parent.appendChild(row);
     return row;
-  }
-  
-  function createElement(parent, i, j) {
+}
+
+function createElement(parent, i, j) {
     var elem = document.createElement('div');
     elem.className = "elem";
     parent.appendChild(elem);
@@ -58,17 +58,17 @@ for (var i = 0; i < n; i++) {
     if (random(1)<0.3){
         massDivs[i][j].classList.toggle('wall');
     }
-  }
-  
+}
+
 }
 //выбираем стенки
 function chooseWalls() {
     let boxes = document.querySelectorAll('.elem');
 
     boxes.forEach(element=>{
-      element.addEventListener('click',()=>{
-          element.classList.toggle('wall')
-      })
+        element.addEventListener('click',()=>{
+            element.classList.toggle('wall')
+        })
     })
     
 }
@@ -77,11 +77,12 @@ function chooseBeginandEnd(){
     let boxes = document.querySelectorAll('.elem');
 
     boxes.forEach(element=>{
-      element.addEventListener('click',()=>{
-          element.classList.toggle('begining')
-      })
+        element.addEventListener('click',()=>{
+            element.classList.toggle('begining')
+        })
     })
 }
+
 
 function alg(){
     class Spot { //класс для каждой клетки
@@ -94,15 +95,21 @@ function alg(){
             this.neighbors = []; //соседи
             this.previous = null; //предыдущая вершина
             this.wall = false; //стена или нет
-            this.show = function () {  //меняем цвет
-                massDivs[i][j].style.background= '#b300ff';
-            };
+            this.show = function () {
+                setTimeout(() => {
+                    massDivs[i][j].style.background= '#b300ff';
+                }, 2000);
+            }
             this.show1 = function () {
-                massDivs[i][j].classList.toggle('openS')
-            };
-            this.show2 = function () {
-                massDivs[i][j].classList.toggle('closeS')
-            };
+            setTimeout(() => {
+                massDivs[i][j].style.background= '#2fa35991';
+            }, 1000);
+        };
+        this.show2 = function () {
+            setTimeout(() => {
+                massDivs[i][j].style.background= '#c58839c7';
+            }, 1000);
+        };
             this.addNeighbors = function(grid){  //добавляем соседей
                 var i = this.i;
                 var j = this.j;
@@ -118,7 +125,7 @@ function alg(){
                 if (j > 0){
                     this.neighbors.push(grid[i][j-1]);
                 }
-               if (i>0 && j>0){
+                if (i>0 && j>0){
                     this.neighbors.push(grid[i-1][j-1]);
                 }
                 if (i>0  && j<rows - 1){
@@ -135,8 +142,8 @@ function alg(){
     }
     for (var i = 0; i < cols;i++){
         for (var j = 0; j < rows;j++){
-           grid[i][j] = new Spot(i,j);
-           if (massDivs[i][j].classList.contains('wall') && !massDivs[i][j].classList.contains('begining')&& !massDivs[i][j].classList.contains('path')){
+            grid[i][j] = new Spot(i,j);
+            if (massDivs[i][j].classList.contains('wall') && !massDivs[i][j].classList.contains('begining')&& !massDivs[i][j].classList.contains('path')){
                grid[i][j].wall = true;  //смотрим стена или нет
             }
     }
@@ -195,9 +202,6 @@ function alg(){
                 }
             }
         }
-        
-    }  
-   
         for (var i = 0; i<closeSet.length; i++){
             closeSet[i].show1();
         }
@@ -208,6 +212,8 @@ function alg(){
                 openSet[i].show2();
         }
     
+    }  
+
     if (openSet.length = 0 || current != end) {
         iddiv.innerHTML="No solution";
         nosolution = true;
@@ -222,8 +228,8 @@ function alg(){
                     }
             
             for (var i = 0; i < path.length; i++){ 
-               path[i].show();
+                path[i].show();
             }
-            iddiv.innerHTML="Done!";
+            iddiv.innerHTML="Done! See result later";
     }
 }
