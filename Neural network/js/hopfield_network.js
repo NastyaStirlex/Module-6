@@ -68,7 +68,7 @@ class Network
 		this.x = x
 		this.images = images;
 		this.w = this.x[0].map( line => this.x[0].map( value => 0 ) );
-		this.deference = 520;
+		this.deference = 350; //520;
 		this.x.forEach( (example,index) => {
 			example.forEach( (value, indexValue) => {
 				for(let i = 0; i < example.length; i++) {
@@ -78,9 +78,9 @@ class Network
 			)
 		}
 		)
-		this.w = this.w.map( line => line.map( value => value / this.w.length ) )
+		this.w = this.w.map( line => line.map( value => value / this.w.length ) ) // диагональ обнуляем
 		for(let i = 0; i < this.w.length; i++) {
-		this.w[i][i]=0;
+			this.w[i][i]=0;
 		}
 		this.seemToBe = {}
 	}
@@ -98,8 +98,8 @@ class Network
 				}
 			)
 			if(coincidence == y.length) {
-			result = i;
-			break 
+				result = i;
+				break 
 			}
 			else if(coincidence > (y.length - this.deference)) {
 				console.log(i, coincidence, y.length, y.length - this.deference)
@@ -114,16 +114,16 @@ class Network
 	result(y) {
 		let i = 0;
 		while(this.in(y) < 0 && i < 5) {
-		i++;
-		y = y.map( (value, index) => {
-			let y1 = 0;
-			for(let i = 0; i < y.length; i++) {
-				y1 += y[i] * this.w[index][i];
-			}
-			return this.sign(y1);
-			} 
-		)
-		i++;
+			i++;
+			y = y.map( (value, index) => {
+				let y1 = 0;
+				for(let i = 0; i < y.length; i++) {
+					y1 += y[i] * this.w[index][i];
+				}
+				return this.sign(y1);
+				} 
+			)
+			i++;
 		}
 		return this.in(y);
 	}
@@ -156,7 +156,7 @@ class Canvas {
 		let draw = false,
 			context = this.context;
 			context.strokeStyle = 'black'
-			context.lineWidth = 3.3;
+			context.lineWidth = 3;
 		this.obj.addEventListener("mousedown", function(e){
 				let x = e.pageX - this.offsetLeft,
 					y = e.pageY - this.offsetTop;
