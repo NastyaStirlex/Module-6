@@ -4,15 +4,15 @@ var clusters = [];
 var k;
 
 function pointDots() {  //ставим точку
-    var block = document.getElementById('page1');
-block.onclick = function(e) {
-  var point = document.createElement('div');
-  point.className = 'dot';
-  point.style.left = e.pageX -4 + 'px';
-  point.style.top = e.pageY -4 + 'px';
-  document.body.appendChild(point);
-  mass.push(point);
-}
+  var block = document.getElementById('page1');
+  block.onclick = function(e) {
+    var point = document.createElement('div');
+    point.className = 'dot';
+    point.style.left = e.pageX -4 + 'px';
+    point.style.top = e.pageY -4 + 'px';
+    document.body.appendChild(point);
+    mass.push(point);
+  }
 }
 function getRandomColor() {  //рандом цвета
   var letters = '0123456789ABCDEF';
@@ -24,7 +24,7 @@ function getRandomColor() {  //рандом цвета
 }
 
 function distance(a,b){
-    return Math.sqrt(Math.pow(b.x-a.x,2)+Math.pow(b.y-a.y,2)); //евклидово расстояние
+  return Math.sqrt(Math.pow(b.x-a.x,2)+Math.pow(b.y-a.y,2)); //евклидово расстояние
 }
 
 class Dot{  //структура точки
@@ -35,20 +35,20 @@ class Dot{  //структура точки
 }
 }
 class Cluster{  //структура кластера
-constructor(i, j) {
-  this.x =i;
-  this.y = j;
-  this.groups = [];
-  this.color = '#';
-}
+  constructor(i, j) {
+    this.x = i;
+    this.y = j;
+    this.groups = [];
+    this.color = '#';
+  }
 }
 function groupsCreate(){
-  //создзаем группы для каждого кластера
+  //созидаем группы для каждого кластера
   for (var i = 0; i<data.length;i++){
     var dist = 100000;
     var choosenCluster = 0;
     for (var j = 0; j<k; j++){
-      var newDist = Math.min(distance(clusters[j],data[i]),dist);  //смотрим до какого кластера ближе
+      var newDist = Math.min(distance(clusters[j],data[i]), dist);  //смотрим до какого кластера ближе
       if (newDist < dist){
         choosenCluster = j;
         dist = newDist;
@@ -63,15 +63,15 @@ function moveCentre(){
     var tempX = 0; var sumX = 0;
     var tempY = 0; var sumY = 0;
     for (var j = 0; j<clusters[i].groups.length;j++){
-        sumX += clusters[i].groups[j].x;
-        sumY += clusters[i].groups[j].y;
+      sumX += clusters[i].groups[j].x;
+      sumY += clusters[i].groups[j].y;
     }
     if (sumX>0){
-      tempX = sumX/clusters[i].groups.length;  // находим среднее значение по Х
+      tempX = sumX / clusters[i].groups.length;  // находим среднее значение по Х
     }
     if (sumY>0){
-    tempY = sumY/clusters[i].groups.length; // находим среднее значение по У
-  }
+      tempY = sumY/clusters[i].groups.length; // находим среднее значение по У
+    }
     clusters[i].x = tempX;
     clusters[i].y = tempY;
     clusters[i].groups = [];
@@ -84,7 +84,7 @@ function algorithm(){
       data[i] = new Dot(parseInt(mass[i].style.left, 10), parseInt(mass[i].style.top,10)); //записываем данные о точках
     }
     for (var i = 0; i<k;i++){
-      let value = parseInt(Math.random()*data.length+1, 10); //рандомно выбираем начальное положение кластера
+      let value = parseInt(Math.random()*data.length+1, 10); //рандомно выбираем начальное положение центроиды
       clusters[i] = new Cluster(data[value-1].x, data[value-1].y);
     }
     for (var i = 0; i<250;i++){ //итерации алгоритма
