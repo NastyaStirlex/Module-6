@@ -13,7 +13,7 @@ class Input {
 			startNameNumber : с какой цифры начинаются имена изображений в directory 
 		*/
 		this.images = Array(countImages).fill(0).map(value => new Image()); 
-		this.images.forEach( (value, index) => value.src = directory+"/"+(startNameNumber+index)+"."+imagesFormat )
+		this.images.forEach( (value, index) => value.src = directory + "/" + (startNameNumber + index) + "." + imagesFormat )
 		this.pixels = [];
 		this.imagesTraining = new Image()
 		this.examplesTraining = []
@@ -66,7 +66,7 @@ class Network {
 		this.x = x
 		this.images = images;
 		this.w = this.x[0].map( line => this.x[0].map( value => 0 ) ); // квадратная обнуленная матрица
-		this.deference = 350; //520;
+		this.deference = 450;
 		this.x.forEach( (example,index) => { // наполнение матрицы
 			example.forEach( (value, indexValue) => {
 				for(let i = 0; i < example.length; i++) {
@@ -194,7 +194,7 @@ class Canvas {
 		this.context.fillRect(0, 0, this.width, this.height);
 	}
 }
-let input = new Input(176, "images/png/numbers", "png", 1);
+let input = new Input(30, "images/png/numbers", "png", 1);
 window.onload = () => {
 	input.load();
 	network = new Network(input.pixels, input.images);
@@ -209,7 +209,7 @@ window.onload = () => {
 	document.querySelector(".identify").addEventListener("click", function(){
 			input.loadTrain('');
 			setTimeout(() => {
-				console.log(network.showResult(context, network.result(input.examplesTraining), input.iDontKnowImage)) //
+				console.log(network.showResult(context, network.result(input.examplesTraining), input.iDontKnowImage))
 			},1000)
 			
 		}
