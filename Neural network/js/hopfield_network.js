@@ -29,7 +29,7 @@ class Input {
 			{ 
 				this.allClear(context)
 				context.drawImage(value,0,0);            //Прорисовываем изображение на холсте
-				let data = [];                           //Инициализируем вектор оветов изображения
+				let data = [];                           //Инициализируем вектор ответов изображения
 				for(let x = 0; x < canvas.width; x++)      //Пробегаемся по столбикам изображения
 				{                                       
 					for(let y = 0; y < canvas.height; y++) //Пробегаемся по строкам изображения 
@@ -67,9 +67,9 @@ class Network
 	{
 		this.x = x
 		this.images = images;
-		this.w = this.x[0].map( line => this.x[0].map( value => 0 ) );
+		this.w = this.x[0].map( line => this.x[0].map( value => 0 ) ); // квадратная обнуленная матрица
 		this.deference = 350; //520;
-		this.x.forEach( (example,index) => {
+		this.x.forEach( (example,index) => { // наполнение матрицы
 			example.forEach( (value, indexValue) => {
 				for(let i = 0; i < example.length; i++) {
 				this.w[indexValue][i] += this.sign(value * example[i]);
@@ -90,7 +90,7 @@ class Network
 	in(y) {
 		let result = -1;
 		this.seemToBe = {}
-		for(let i = 0; i < this.x.length; i++) {
+		for(let i = 0; i < this.x.length; i++) { // проходим по всем примерам обучающим
 			let coincidence = 0;
 			this.x[i].forEach( (value,indexValue) => 
 				{
