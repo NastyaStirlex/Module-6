@@ -24,7 +24,7 @@ class Input {
 	allClear(context) {
 		context.clearRect(0,0, canvas.width, canvas.height) //Каждый раз очищаем холст
 	}
-	load() {
+	load() { // преобразование нарисованной картинки в [1, -1]
 		this.pixels = this.images.map( (value, indexValue) => //Пробегаемся по всей выборке изображений
 			{ 
 				this.allClear(context)
@@ -61,10 +61,8 @@ class Input {
 	}
 }
 
-class Network
-{
-	constructor(x, images)
-	{
+class Network {
+	constructor(x, images) {
 		this.x = x
 		this.images = images;
 		this.w = this.x[0].map( line => this.x[0].map( value => 0 ) ); // квадратная обнуленная матрица
@@ -72,7 +70,7 @@ class Network
 		this.x.forEach( (example,index) => { // наполнение матрицы
 			example.forEach( (value, indexValue) => {
 				for(let i = 0; i < example.length; i++) {
-				this.w[indexValue][i] += this.sign(value * example[i]);
+					this.w[indexValue][i] += this.sign(value * example[i]);
 				}
 			}
 			)
@@ -87,18 +85,18 @@ class Network
 	sign(x) {
 		return (x < 0) ? -1 : 1;
 	}
-	in(y) {
+	in(y) { // список х - обучающие изображения , есть ли матрица среди примеров, идентичная нарисованной - у
 		let result = -1;
 		this.seemToBe = {}
 		for(let i = 0; i < this.x.length; i++) { // проходим по всем примерам обучающим
-			let coincidence = 0;
-			this.x[i].forEach( (value,indexValue) => 
+			let coincidence = 0; // сравниваем каждую цифру
+			this.x[i].forEach( (value,indexValue) =>  // пробегаемс оп одноу из обуч.примеров и берем из него значение
 				{
 					coincidence += (value == y[indexValue]) ? 1 : 0;
 				}
 			)
 			if(coincidence == y.length) {
-				result = i;
+				result = i; // индекс изображения
 				break 
 			}
 			else if(coincidence > (y.length - this.deference)) {
@@ -106,7 +104,7 @@ class Network
 				this.seemToBe[coincidence] = i;
 			}
 		}
-		if(Object.keys(this.seemToBe).length > 0) {
+		if(Object.keys(this.seemToBe).length > 0) { // если ключей больше 0, выводи с наименьшей погрешностью
 			result = this.seemToBe[Math.max(...Object.keys(this.seemToBe))];
 		}
 		return result;
@@ -115,13 +113,13 @@ class Network
 		let i = 0;
 		while(this.in(y) < 0 && i < 5) {
 			i++;
-			y = y.map( (value, index) => {
+			y = y.map( (value, index) => { // с помощью map перебираем все варианты
 				let y1 = 0;
 				for(let i = 0; i < y.length; i++) {
-					y1 += y[i] * this.w[index][i];
+					y1 += y[i] * this.w[index][i]; // каждый входной элемент умножаем попарно на элемент матрицы весов
 				}
 				return this.sign(y1);
-				} 
+			} 
 			)
 			i++;
 		}
@@ -211,7 +209,7 @@ window.onload = () => {
 	document.querySelector(".identify").addEventListener("click", function(){
 			input.loadTrain('');
 			setTimeout(() => {
-				console.log(network.showResult(context, network.result(input.examplesTraining), input.iDontKnowImage))
+				console.log(network.showResult(context, network.result(input.examplesTraining), input.iDontKnowImage)) //
 			},1000)
 			
 		}
