@@ -140,10 +140,11 @@ function alg(){
             }
         }
     }
+
     for (var i = 0; i < cols;i++){
         for (var j = 0; j < rows;j++){
             grid[i][j] = new Spot(i,j);
-            if (massDivs[i][j].classList.contains('wall') && !massDivs[i][j].classList.contains('begining')&& !massDivs[i][j].classList.contains('path')){
+            if (massDivs[i][j].classList.contains('wall') && !massDivs[i][j].classList.contains('begining') && !massDivs[i][j].classList.contains('path')){
                grid[i][j].wall = true;  //смотрим стена или нет
             }
     }
@@ -190,7 +191,7 @@ function alg(){
                         neighbor.g = tempG;  //если длина меньше, то перезаписываем
                     }
                 }
-                else {  //если уже посетили соседа, то создаём новый путь
+                else {  //если еще не посетили соседа, то создаём новый путь
                     neighbor.g = tempG; 
                     newPath = true;
                     openSet.push(neighbor);
@@ -209,7 +210,7 @@ function alg(){
         
     
         for (var i = 0; i<openSet.length; i++){
-                openSet[i].show2();
+            openSet[i].show2();
         }
     
     }  
@@ -219,17 +220,17 @@ function alg(){
         nosolution = true;
     }
     if (!nosolution){  //показываем путь
-            path = [];
-                    var temp = current;
-                    path.push(temp);
-                    while (temp.previous){
-                        path.push(temp.previous);
-                        temp = temp.previous;
-                    }
+        path = [];
+        var temp = current;
+        path.push(temp);
+        while (temp.previous){
+            path.push(temp.previous);
+            temp = temp.previous;
+        }
             
-            for (var i = 0; i < path.length; i++){ 
-                path[i].show();
-            }
-            iddiv.innerHTML="Done! See result later";
+        for (var i = 0; i < path.length; i++){ 
+            path[i].show();
+        }
+        iddiv.innerHTML="Done! See result later";
     }
 }
