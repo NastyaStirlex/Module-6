@@ -66,7 +66,7 @@ class Network {
 		this.x = x
 		this.images = images;
 		this.w = this.x[0].map( line => this.x[0].map( value => 0 ) ); // квадратная обнуленная матрица
-		this.deference = 450;
+		this.deference = 350;
 		this.x.forEach( (example,index) => { // наполнение матрицы
 			example.forEach( (value, indexValue) => {
 				for(let i = 0; i < example.length; i++) {
@@ -194,7 +194,7 @@ class Canvas {
 		this.context.fillRect(0, 0, this.width, this.height);
 	}
 }
-let input = new Input(30, "images/png/numbers", "png", 1);
+let input = new Input(176, "images/png/numbers", "png", 1);
 window.onload = () => {
 	input.load();
 	network = new Network(input.pixels, input.images);
